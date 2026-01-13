@@ -1,18 +1,30 @@
-import { useState, useRef, useCallback, useMemo } from 'react';
+
+
+import { useState, useRef, useCallback } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
-import { useShallow } from 'zustand/react/shallow'; 
+import { useShallow } from 'zustand/react/shallow';
 
-// Make sure these match your actual file names (Capitalized)
+
 import { InputNode } from './nodes/inputNodes';
 import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
+import { UrlLoaderNode } from './nodes/urlLoaderNode';
 
 import 'reactflow/dist/style.css';
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
+
+
+const nodeTypes = {
+  customInput: InputNode,
+  llm: LLMNode,
+  customOutput: OutputNode,
+  text: TextNode,
+  urlLoader: UrlLoaderNode,
+};
 
 const selector = (state) => ({
   nodes: state.nodes,
@@ -38,14 +50,6 @@ export const PipelineUI = () => {
     onConnect,
   } = useStore(useShallow(selector));
 
-  // IMPORTANT: Memoize nodeTypes so React Flow doesn't re-render them constantly
-  const nodeTypes = useMemo(() => ({
-    customInput: InputNode,
-    llm: LLMNode,
-    customOutput: OutputNode,
-    text: TextNode,
-  }), []);
-
   const getInitNodeData = (nodeID, type) => {
     let nodeData = { id: nodeID, nodeType: `${type}` };
     return nodeData;
@@ -60,7 +64,6 @@ export const PipelineUI = () => {
         const appData = JSON.parse(event.dataTransfer.getData('application/reactflow'));
         const type = appData?.nodeType;
 
-        // check if the dropped element is valid
         if (typeof type === 'undefined' || !type) {
           return;
         }
@@ -90,27 +93,25 @@ export const PipelineUI = () => {
   }, []);
 
   return (
-    <>
-      <div ref={reactFlowWrapper} style={{ width: '100vw', height: '70vh' }}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          onInit={setReactFlowInstance}
-          nodeTypes={nodeTypes}
-          proOptions={proOptions}
-          snapGrid={[gridSize, gridSize]}
-          connectionLineType="smoothstep"
-        >
-          <Background color="#aaa" gap={gridSize} />
-          <Controls />
-          <MiniMap />
-        </ReactFlow>
-      </div>
-    </>
+    <div ref={reactFlowWrapper} style={{ width: '100vw', height: '70vh' }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        onInit={setReactFlowInstance}
+        proOptions={proOptions}
+        snapGrid={[gridSize, gridSize]}
+        connectionLineType="smoothstep"
+      >
+        <Background color="#aaa" gap={gridSize} />
+        <Controls />
+        <MiniMap />
+      </ReactFlow>
+    </div>
   );
 };

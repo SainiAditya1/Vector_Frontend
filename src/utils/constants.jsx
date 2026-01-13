@@ -11,4 +11,5 @@ export const NODE_TYPES = Object.freeze({
   OUTPUT: "customOutput",
   LLM: "llm",
   TEXT: "text",
+  URL_LOADER: "urlLoader",
 });
