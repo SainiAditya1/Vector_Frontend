@@ -1,6 +1,6 @@
 import React, { useId } from "react";
-import { Label } from "../ui/Label";
-import { Input } from "../ui/Input";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
 
 const InputBox = ({ label, type = "text", className = "", ...props }) => {
   const id = useId();

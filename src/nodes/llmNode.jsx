@@ -1,59 +1,40 @@
-import { Handle, Position } from 'reactflow';
+import { useState, useEffect, useCallback } from "react";
+import NodeContainer from "../components/NodeContainer";
+import InputBox from "../components/InputBox";
+import { NODE_TYPES } from "../utils/constants";
+import { useStore } from "../store";
 
 export const LLMNode = ({ id, data }) => {
+  const updateNodeField = useStore((state) => state.updateNodeField);
+  const [currText, setCurrText] = useState(data?.text || "This is a LLM.");
+
+  const handleTextChange = useCallback((e) => {
+    setCurrText(e.target.value);
+  }, []);
+
+  useEffect(() => {
+    updateNodeField(id, 'text', currText);
+  }, [id, currText, updateNodeField]);
 
   return (
-    <div style={styles.container}>
-    
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-system`}
-        style={styles.handleSystem}
-      />
-
-   
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-prompt`}
-        style={styles.handlePrompt}
-      />
-
-     
-      <div>
-        <span>LLM</span>
+    <NodeContainer
+      heading="LLM"
+      type={NODE_TYPES.LLM}
+      id={id}
+      inputHandles={["system", "prompt"]}
+      outputHandles={["response"]}
+      infoAvailable={true}
+    >
+      <div className="mb-2">
+        <span className="text-xs text-muted-foreground">This is a LLM.</span>
       </div>
-      <div>
-        <span>This is a LLM.</span>
-      </div>
-
-    
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-response`}
+      
+      <InputBox
+        label="Model Name" 
+        type="text"
+        value={currText}
+        onChange={handleTextChange}
       />
-    </div>
+    </NodeContainer>
   );
-};
-
-
-const styles = {
-  container: {
-    width: 200,
-    height: 80,
-    border: '1px solid black',
-    backgroundColor: '#fff', 
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  handleSystem: {
-    top: `${100 / 3}%`,
-  },
-  handlePrompt: {
-    top: `${200 / 3}%`, 
-  },
 };

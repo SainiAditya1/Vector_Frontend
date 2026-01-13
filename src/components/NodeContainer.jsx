@@ -1,6 +1,6 @@
 import React from "react";
 import { Handle, Position } from "reactflow";
-import { Card, CardContent } from "../ui/Card";
+import { Card, CardContent } from "./ui/card";
 import NodeHeading from "./NodeHeading";
 import { cn } from "../lib/utils"; 
 

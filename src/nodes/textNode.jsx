@@ -1,44 +1,36 @@
-import { useState, useCallback } from 'react';
-import { Handle, Position } from 'reactflow';
+import { useState, useEffect, useCallback } from "react";
+import NodeContainer from "../components/NodeContainer";
+import { NODE_TYPES } from "../utils/constants";
+import InputBox from "../components/InputBox";
+import { useStore } from "../store";
 
 export const TextNode = ({ id, data }) => {
-  const [currText, setCurrText] = useState(data?.text || '{{input}}');
+  const updateNodeField = useStore((state) => state.updateNodeField);
+  const [currText, setCurrText] = useState(data?.text || "{{input}}");
 
   const handleTextChange = useCallback((e) => {
     setCurrText(e.target.value);
   }, []);
 
+  
+  useEffect(() => {
+    updateNodeField(id, 'text', currText);
+  }, [id, currText, updateNodeField]);
+
   return (
-    <div style={styles.container}>
-      <div>
-        <span>Text</span>
-      </div>
-      <div>
-        <label>
-          Text:
-          <input 
-            type="text" 
-            value={currText} 
-            onChange={handleTextChange}
-            className="nodrag" 
-          />
-        </label>
-      </div>
-      <Handle 
-        type="source"
-        position={Position.Right}
-        id={`${id}-output`}
+    <NodeContainer
+      heading="Text"
+      type={NODE_TYPES.TEXT} 
+      id={id}
+      outputHandles={["output"]}
+      infoAvailable={true}
+    >
+      <InputBox
+        label="Text"
+        type="text"
+        value={currText}
+        onChange={handleTextChange}
       />
-    </div>
+    </NodeContainer>
   );
-};
-
-
-const styles = {
-  container: {
-    width: 200, 
-    height: 80, 
-    border: '1px solid black',
-    backgroundColor: '#fff',
-  }
 };

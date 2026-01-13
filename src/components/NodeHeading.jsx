@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
-import { useStore } from "../../store";
+import { useStore } from "../store";
 import { useShallow } from "zustand/react/shallow"; 
 import { CircleX, Info, Box } from "lucide-react"; 
-import { CardHeader, CardTitle } from "../ui/Card";
+import { CardHeader, CardTitle } from "./ui/card";
 
 const selector = (state) => ({
   removeNode: state.removeNode,

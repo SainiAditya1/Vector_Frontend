@@ -1,12 +1,12 @@
 import React, { useId } from "react";
-import { Label } from "../ui/Label";
+import { Label } from "./ui/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/Select";
+} from "./ui/select";
 
 const SelectBox = ({
   label,
