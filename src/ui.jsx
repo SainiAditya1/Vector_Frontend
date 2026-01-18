@@ -16,6 +16,8 @@ import { UrlLoaderNode } from './nodes/urlLoaderNode';
 import 'reactflow/dist/style.css';
 import { GitLoaderNode } from './nodes/Gitloadernode';
 import { TextToFileNode } from './nodes/TextToFileNode';
+import { SemanticSearchNode } from './nodes/SemanticSearchNode';
+import { OpenAINode } from './nodes/OpenAINode';
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
@@ -29,6 +31,9 @@ const nodeTypes = {
   urlLoader: UrlLoaderNode,
   gitLoader: GitLoaderNode,
   textToFile : TextToFileNode,
+  semanticSearch: SemanticSearchNode,
+  openainode: OpenAINode,
+
 };
 
 const selector = (state) => ({
