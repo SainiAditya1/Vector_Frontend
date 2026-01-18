@@ -4,42 +4,40 @@ import { NODE_TYPES } from "../utils/constants";
 import InputBox from "../components/InputBox";
 import { useStore } from "../store";
 
-export const UrlLoaderNode = ({ id, data }) => {
+export const GitLoaderNode = ({ id, data }) => {
   const updateNodeField = useStore((state) => state.updateNodeField);
-  const [currUrl, setCurrUrl] = useState(data?.url || ""); 
+  const [currRepo, setCurrRepo] = useState(data?.url || "");
 
-
-  const handleUrlChange = useCallback((e) => {
-    setCurrUrl(e.target.value);
+  const handleRepoChange = useCallback((e) => {
+    setCurrRepo(e.target.value);
   }, []);
 
   
   useEffect(() => {
-    updateNodeField(id, 'url', currUrl);
-  }, [id, currUrl, updateNodeField]);
+    updateNodeField(id, 'url', currRepo);
+  }, [id, currRepo, updateNodeField]);
 
   return (
     <NodeContainer
-      heading="URL Loader"
-      type={NODE_TYPES.URL_LOADER} 
+      heading="Git Loader"
+      type={NODE_TYPES.GIT_LOADER}
       id={id}
       inputHandles={["value"]}
       outputHandles={["output"]}
       infoAvailable={true}
-      infoContent="Loads and processes data from a specified web URL."
+      infoContent="Clones and processes files from a specific Git repository."
     >
       <div className="mb-2 text-xs text-muted-foreground">
-        Reads data from a URL.
+        Pulls code from a Git repository.
       </div>
 
       <InputBox
-        label="URL"
+        label="Repository URL"
         type="text" 
-        placeholder="https://example.com"
-        value={currUrl}
-        onChange={handleUrlChange}
+        placeholder="https://github.com/username/repo"
+        value={currRepo}
+        onChange={handleRepoChange}
       />
-      
     </NodeContainer>
   );
 };

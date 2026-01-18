@@ -12,7 +12,10 @@ import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
 import { UrlLoaderNode } from './nodes/urlLoaderNode';
 
+
 import 'reactflow/dist/style.css';
+import { GitLoaderNode } from './nodes/Gitloadernode';
+import { TextToFileNode } from './nodes/TextToFileNode';
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
@@ -24,6 +27,8 @@ const nodeTypes = {
   customOutput: OutputNode,
   text: TextNode,
   urlLoader: UrlLoaderNode,
+  gitLoader: GitLoaderNode,
+  textToFile : TextToFileNode,
 };
 
 const selector = (state) => ({
